@@ -238,6 +238,18 @@ def main():
     for e in exp[:3]:
         print(e)
 
+AUDIT_LOG = []
+
+def audit_decision(applicant_id, pred, prob, explanation, model_type):
+    entry = {
+        "applicant_id": applicant_id,
+        "model": model_type,
+        "decision": "APPROVED" if pred == 1 else "DENIED",
+        "confidence": f"{prob*100:.1f}%",
+        "top_reasons": explanation[:3],
+    }
+    AUDIT_LOG.append(entry)
+    return entry
 
 if __name__ == "__main__":
     main()
